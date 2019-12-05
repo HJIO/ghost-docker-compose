@@ -1,0 +1,12 @@
+{
+  "database": {
+    "url": "blog.lszh.io",
+    "client": "mysql",
+    "connection": {
+      "host": "db",
+      "port": 3306,
+      "user": "root",
+      "database": "ghost"
+    }
+  }
+}
