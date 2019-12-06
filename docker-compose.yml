@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: ghost
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - $PWD/blog-data:/var/lib/mysql
+      - ./blog-db:/var/lib/mysql
     networks:
       - data
 
@@ -17,27 +17,25 @@ services:
     container_name: ghost
     depends_on:
       - db
-    build: ./ghost
+    image: ghost:alpine
     restart: always
     ports:
       - 2368:2368
-    expose:
-      - 2368
     networks:
       - data
       - web
+    volumes:
+      - ./blog-content:/var/lib/ghost/content
+      - ./ghost/config.production.json:/config.production.json
   nginx:
     container_name: nginx
     image: nginx:alpine
     volumes:
-      - $PWD/nginx/blog.conf:/etc/nginx/sites-enabled/blog.conf
-      - $PWD/ssl:/etc/ssl
+      - ./nginx/blog.conf:/etc/nginx/conf.d/blog.conf
+      - ./ssl:/etc/ssl
     ports:
       - "80:80"
       - "443:443"
-    expose:
-      - 80
-      - 443
     restart: always
     depends_on:
       - ghost
