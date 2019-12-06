@@ -1,3 +1,4 @@
-/blog-db
+/data/ghost-content
+/data/mysql-content
 *.crt
 *.key

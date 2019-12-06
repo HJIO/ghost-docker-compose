@@ -9,7 +9,7 @@ services:
       MYSQL_DATABASE: ghost
       MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
     volumes:
-      - ./blog-db:/var/lib/mysql
+      - ./data/mysql-content:/var/lib/mysql
     networks:
       - data
 
@@ -24,9 +24,15 @@ services:
     networks:
       - data
       - web
+    environment: 
+      url: "https://blog.lszh.io"
+      database__client: "mysql"
+      database__connection__host: db
+      database__connection__port: 3306
+      database__connection__user: root
+      database__connection__database: ghost
     volumes:
-      - ./blog-content:/var/lib/ghost/content
-      - ./ghost/config.production.json:/config.production.json
+      - ./data/ghost-content:/var/lib/ghost/content
   nginx:
     container_name: nginx
     image: nginx:alpine
